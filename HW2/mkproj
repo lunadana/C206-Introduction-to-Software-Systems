@@ -1,0 +1,43 @@
+#!/bin/bash
+#Luna Dana 260857641
+
+#Checking number of args
+if [ "$#" -ne 2 ];
+then
+echo "Error : Wrong number of argument. Please type ./mkproj ARGUMENT OWNER. The argument is the name of the project. the OWNER is the user name the project belongs to"
+exit
+fi
+
+#Checking Projects's existence, if not creation
+if [ -d "Projects" ];
+then
+        :
+else
+        mkdir Projects
+fi
+
+#Change directory to Projects
+cd Projects
+
+if [ -d "$1" ]
+then
+	echo "Error : The project name has already been used please select another project name and try again"	
+	cd ..
+else 
+	mkdir "$1"
+fi
+
+cd "$1"
+mkdir "archive"
+mkdir "docs"
+mkdir "assets"
+mkdir "database"
+mkdir "source"
+
+echo $(ls)
+cd docs
+touch readme.txt
+
+#Writing in the text file the name of the creator
+echo "Created by "$2"" >> readme.txt
+cat readme.txt

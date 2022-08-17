@@ -1,0 +1,42 @@
+#Luna dana 260857641
+#!/bin/bash
+
+#Checking if the number of arguments is correct 
+if [ $1 = "-D" ]
+then
+x="yes"
+shift
+fi
+
+if [ "$#" -lt 3 ]
+then
+echo "You have the incorrect number of arguments. The correct syntax is : ./backup SWITCH FILES DEST MESSAGE"
+exit 1
+fi
+
+#Checking if the directory DEST exists, if not creating it
+if [ -d "$2" ]
+then
+        :
+else
+        mkdir "$2"
+fi
+
+#backup files to dest + date = today's
+
+d=$(date +%F)".tar"
+tar -cvf "$2/backup${d}" "$1"
+
+#CHMOD the tar file as RW for only the owner
+
+chmod u+rw "$2/backup${d}"
+
+#Append to a log.file
+
+echo "`date +%F` `date +%T` ${@: 3}" >> "$2"/backups.log
+
+#Erase the original files id if D was an argument
+if [ "$x" = "yes" ]
+then 
+	rm -r $1
+fi
